@@ -1,4 +1,4 @@
-import { error800, neutral100 } from "@/utils/constants/colors";
+import { error800, neutral100, neutral300, neutral500, neutral600, neutral800, primary200, primary300 } from "@/utils/constants/colors";
 import { closedEye, viewIcon } from "@/utils/constants/images";
 import React, { useState } from "react";
 import {
@@ -38,7 +38,7 @@ export default function InputBox(props: InputBoxProps) {
           keyboardType={props.type==='phoneno' ? "number-pad" : "default"}
           className="lg:text-xl"
           secureTextEntry={isPassword && dontShowPassword}
-          placeholderTextColor="black"
+          placeholderTextColor= {neutral600}
           style={styles.input}
           value={props.value}
           placeholder={props.placeholder}
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     width: "93%",
     outlineStyle: "none",
     padding:4,
-    fontSize:15
+    fontSize:15,
+    
   },
 });

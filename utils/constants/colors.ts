@@ -38,14 +38,22 @@ export const orange200 = '#fed7aa';
 export const orange100 = '#ffedd5';
 export const orange50 = 'rgb(250,243,234)';
  
-export const purple100 = '#f5f2fc';
-export const purple200 = '#eeeafa';
-export const purple50 = "#EFEAFB";
-export const purple300 = "rgb(81,19,182)";
-export const purple800 = "rgba(191, 89, 207, 1)";
+// export const purple100 = '#f5f2fc';
+// export const purple200 = '#eeeafa';
+// export const purple50 = "#EFEAFB";
+// export const purple300 = "rgb(81,19,182)";
+// export const purple800 = "rgba(191, 89, 207, 1)";
 
 export const red100 = 'rgb(215,116,106)';
 export const red200 = 'rgb(169,60,55)';
 
 export const pink100 = 'rgb(237,119,134)';
 export const pink200 = 'rgb(169,60,173)';
+
+export const purple100 = '#2a32d7';
+export const purple200 = '#3638de';
+export const purple300 = '#403de5';
+export const purple400 = '#4a43ec';
+export const purple500 = '#5349f3';
+export const purple600 = '#5b4ffa';
+export const purple700 = '#6454ff';

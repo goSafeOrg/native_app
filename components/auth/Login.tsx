@@ -1,140 +1,143 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, TextInput,Image, TouchableOpacity, SafeAreaView, ScrollView, Switch, Platform, ImageBackground } from 'react-native';
 import { useRouter } from 'expo-router';
 import { signIn } from '@/api/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import InputBox from '../Input/InputBox';
 import PrimaryButton from '../buttons/PrimaryButton';
 import DisabledButton from '../buttons/DisabledButton';
+// Import for icons if using React Native Vector Icons or similar
+import { MaterialIcons } from '@expo/vector-icons';
+import { blue300, blue800, primary100, purple100, purple200, purple600 } from '@/utils/constants/colors';
+import {  setExpoToken } from '@/api/notifications';
+import Loader from '../Loader/Loader';
+import { background, logo, logo2 } from '@/utils/constants/images';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
+    const [rememberMe, setRememberMe] = useState(false);
+    const [loading, setloading] = useState(false);
     const router = useRouter();
 
     const handleSubmit = async () => {
+        setloading(true)
         try {
             const user = await signIn(email, password);
-            console.log('Logged in:', user);
-            AsyncStorage.setItem('id',user.id)
-            AsyncStorage.setItem('email',user.email!)
+            console.log("hey")
+            if(!user){
+                alert("Incorrect Username or Password")
+            }
+            await AsyncStorage.setItem('id', user.id);
+            await AsyncStorage.setItem('email', user.email!);
+            if (Platform.OS !== "web") setExpoToken(user.id);
             router.replace('/(protected)/home');
         } catch (err: any) {
+            alert(err.message)
             setError(err.message);
+        }finally{
+            setloading(false)
         }
     };
 
-    // return (
-    //     <SafeAreaView>
-    //         <View>
-    //             <Text>Login</Text>
-    //             <InputBox label={''} placeholder={'Email'} value={email} type={''} onChange={setEmail}>
-    //             </InputBox>
-    //             <InputBox label={''} placeholder={'Password'} value={email} type={'password'} onChange={setPassword}>
-    //             </InputBox>
-    //             <TextInput
-    //                 placeholder="Password"
-    //                 value={password}
-    //                 secureTextEntry
-    //                 onChangeText={setPassword}
-    //             />
-    //             {error && <Text style={{ color: 'red' }}>{error}</Text>}
-    //             <Button title="Login" onPress={handleLogin} />
-    //             <View></View>
-    //             <TouchableOpacity onPress={() => { router.push('/(public)/signup'); }}>
-    //                 <Text>Register</Text>
-    //             </TouchableOpacity>
-    //         </View>
-    //     </SafeAreaView>
-    // );
-
     return (
-        <SafeAreaView className="flex-1 ">
-          <ScrollView
-            contentContainerStyle={{ flexGrow: 1 }}
-            className="bg-neutral-100"
-            showsVerticalScrollIndicator={false}
-          >
-            {/* <Loader isOpen={loading} /> */}
-            {/* <ChangePassword isOpen={firstTimeLogin} onClose={() => {setFirstTimeLogin(false)}} hasClose={true} changePasswordFromLogin={role} />
-            <ForgotPassword visible={forgotPasswordOpen} onClose={()=>{setForgotPasswordOpen(false)}} /> */}
-            <View className="flex-1 lg:flex lg:flex-row lg:p-16 lg:bg-neutral-50 ">
-              <View className="lg:flex lg:w-1/2 lg:p-8 lg:bg-primary-500 lg:rounded-2xl lg:items-center lg:justify-center">
-                <View className="p-8 bg-primary-500 rounded-b-3xl lg:rounded-xl">
-                  <View className="flex items-center">
-                    {/* <Image
-                      className="w-40 h-40 lg:w-[50%] lg:h-64 rounded-xl"
-                      source={homePage}
-                    /> */}
-                  </View>
-                  <View className="flex items-center justify-center mt-4">
-                    <Text className="mt-2 text-lg font-bold text-neutral-100 lg:text-3xl lg:font-extrabold">
-                      Welcome to EKSAQ
-                    </Text>
-                    <Text
-                      className="mt-2 font-semibold text-neutral-100 lg:text-xl lg:font-semibold"
-                      style={{ textAlign: "center" }}
-                    >
-                      Experience a dynamic, engaging, and adaptive learning,
-                      all-in-one platform for a seamless and interactive educational
-                      experience.
-                    </Text>
-                  </View>
-                </View>
-              </View>
-              <View className="-mt-16 lg:flex lg:items-center lg:justify-center lg:w-1/2 lg:p-32">
-                <View className="p-4 pb-20 mt-8 lg:items-center lg:w-full lg:rounded-2xl lg:bg-neutral-50">
-                  <View className="justify-center p-6 border rounded-lg bg-neutral-100 border-neutral-600 lg:w-full lg:mt-0 lg:border-0 lg:bg-neutral-50">
-                    <View className="flex items-center lg:items-start">
-                      {/* <Image source={eksaqLogo} /> */}
+       
+            
+       
+        <SafeAreaView className="flex-1 " >
+             <ImageBackground source={background} style={{ flex: 1,justifyContent: 'center',}}>
+         
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
+                <Loader isOpen={loading}></Loader>
+                <View className="justify-center flex-1 p-6">
+                    {/* Logo */}
+                    <View className="flex items-center mb-8">
+                        <Image source={logo} className='w-40 h-40'></Image>
+                        <Text className="mt-4 text-3xl font-bold text-black">GOSAFE</Text>
                     </View>
-                    <Text className="my-2 font-bold lg:text-2xl">
-                      Hello! Let's Get Started
-                    </Text>
-                    <View>
-                      <InputBox
+
+                    {/* Email Input */}
+                    <InputBox
                         value={email}
-                        placeholder="Enter email"
-                        label="Username"
+                        placeholder="abc@email.com"
+                        label="Email"
                         onChange={(text) => setEmail(text)}
                         type="text"
-                      />
+                    />
+
+                    {/* Password Input */}
+                    <View className="my-4">
+                        <InputBox
+                            type="password"
+                            value={password}
+                            placeholder="Your password"
+                            label="Password"
+                            onChange={(text) => setPassword(text)}
+                        />
                     </View>
-                    <View className="my-2">
-                      <InputBox
-                        type="password"
-                        value={password}
-                        placeholder="Enter password"
-                        label="Password"
-                        onChange={(text) => setPassword(text)}
-                      />
+
+                    {/* Remember Me and Forgot Password */}
+                    <View className="flex-row items-center justify-between mb-4">
+                        <View className="flex-row items-center">
+                            <Switch
+                                value={rememberMe}
+                                onValueChange={setRememberMe}
+                                trackColor={{ false: primary100, true: purple100 }}
+                                
+                                thumbColor={ rememberMe ? purple100 : primary100}
+                                
+                            />
+                            <Text className="ml-2 text-black">Remember Me</Text>
+                        </View>
+                        <TouchableOpacity onPress={() => console.log("Forgot Password Pressed")}>
+                            <Text className="text-purple-600">Forgot Password?</Text>
+                        </TouchableOpacity>
                     </View>
-                    {/* <TouchableOpacity className="flex items-end" onPress={()=>{setForgotPasswordOpen(true)}} >
-                      <Text className="text-primary-800 lg:text-lg lg:font-semibold">
-                        Forgot Password?
-                      </Text>
+
+                    {/* Sign In Button */}
+                    <View className="mb-4">
+                        {email && password ? (
+                            <PrimaryButton
+                                onClick={() => {
+                                    handleSubmit();
+                                }}
+                                label="SIGN IN"
+                            />
+                        ) : (
+                            <DisabledButton label="SIGN IN" />
+                        )}
+                    </View>
+
+                    {/* OR Divider */}
+                    <View className="flex-row items-center justify-center mb-4">
+                        <View className="flex-1 h-px bg-gray-300" />
+                        <Text className="px-2 text-gray-500">OR</Text>
+                        <View className="flex-1 h-px bg-gray-300" />
+                    </View>
+
+                    {/* Google Login Button */}
+                    {/* <TouchableOpacity
+                        onPress={() => console.log("Google Login Pressed")}
+                        className="flex-row items-center justify-center p-3 bg-white border border-gray-300 rounded-lg"
+                    >
+                        <MaterialIcons name="google" size={24} color="#4285F4" />
+                        <Text className="ml-2 font-medium text-black">Login with Google</Text>
                     </TouchableOpacity> */}
-                  </View>
-                  <View className="mt-4 lg:w-full">
-                    {email && password ? (
-                      <PrimaryButton
-                        onClick={() => {
-                          handleSubmit();
-                        }}
-                        label="Log In"
-                      />
-                    ) : (
-                      <DisabledButton label="Log In" />
-                    )}
-                  </View>
+
+                    {/* Sign Up Text */}
+                    <View className="flex-row justify-center mt-6">
+                        <Text className="text-gray-500">Don’t have an account? </Text>
+                        <TouchableOpacity onPress={() => router.push('/(public)/Signup')}>
+                            <Text className="font-semibold text-purple-600">Sign up</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-              </View>
-            </View>
-            {/* {username && <ClarityWebView userId={username} />} */}
-          </ScrollView>
+            </ScrollView>
+            </ImageBackground>
         </SafeAreaView>
-      );
+      
+    );
 };
 
 export default Login;

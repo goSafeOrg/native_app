@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "867196070505",
+    "project_id": "gosafe-60533",
+    "storage_bucket": "gosafe-60533.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867196070505:android:89aa9b6881aab7bd7590f8",
+        "android_client_info": {
+          "package_name": "com.gosafe.test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE4aW4uaeczHUsP256KcHUqZ-sfzKSHB0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

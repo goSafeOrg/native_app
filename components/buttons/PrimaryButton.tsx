@@ -1,4 +1,4 @@
-import { neutral100, primary500 } from "@/utils/constants/colors";
+import { blue800, neutral100, primary500, purple600 } from "@/utils/constants/colors";
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
 
@@ -12,8 +12,8 @@ export default function PrimaryButton({ label, onClick }: PrimaryButtonProps) {
     <TouchableOpacity
       onPress={onClick}
       style={{
-        backgroundColor: primary500,
-        borderColor: primary500,
+        backgroundColor: purple600,
+        borderColor: purple600,
         borderWidth: 1,
         borderRadius: 24,
         padding: 12,
